@@ -1,7 +1,7 @@
 import { Quote } from "../models/quote.models.js";
 
 export const getAllQuotes = async (req, res) => {
-  try {
+ try {
     const mergedQuotes = await Quote.aggregate([
       {
         $unwind: "$quotes",
