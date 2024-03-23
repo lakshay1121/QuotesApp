@@ -59,7 +59,6 @@ fields to be send in body -
 
 - Get all quotes of a user(GET) - http://localhost:5000/api/v1/users/quotes/{userId}
 
-
-
+- Get all quotes throughout the application(GET) - http://localhost:5000/api/v1/users/quotes
 
  
