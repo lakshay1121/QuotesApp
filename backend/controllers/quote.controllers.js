@@ -1,7 +1,8 @@
 import { Quote } from "../models/quote.models.js";
+import mongodb from "mongodb";
 
 export const getAllQuotes = async (req, res) => {
- try {
+  try {
     const mergedQuotes = await Quote.aggregate([
       {
         $unwind: "$quotes",
@@ -53,7 +54,6 @@ export const getAllQuotesOfUser = async (req, res) => {
 };
 
 export const postQuotes = async (req, res) => {
-  
   const { author, title, content, userId } = req.body;
   if (!title || !content || !userId || !author) {
     return res.status(400).json({ message: "Missing fields" });
@@ -91,10 +91,24 @@ export const postQuotes = async (req, res) => {
   }
 };
 
-export const updateQuote = async (req, res) => {};
+export const deleteQuote = async (req, res) => {
+  const quoteID = req.params.id;
 
-export const testRoute = async (req, res) => {
-  res.status(200).json.parse({
-    message: "hello",
-  });
+  if (!quoteID) return res.status(400).json({ message: "No ID Provided" });
+  try {
+    let quote = await Quote.updateOne(
+      { "quotes._id": quoteID },
+      { $pull: { quotes: { _id: quoteID } } }
+    );
+
+    if (quote.modifiedCount === 0)
+      return res.status(404).json({ message: "Quote not found" });
+    return res
+      .status(200)
+      .json({ message: "Quote deleted successfully", quote });
+  } catch (error) {
+    return res.status(500).json({ message: `Server Error : ${error}` });
+  }
 };
+
+export const updateQuote = async (req, res) => {};
