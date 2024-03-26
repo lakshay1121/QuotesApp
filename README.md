@@ -1,8 +1,5 @@
 # Quotes Application.
 
-## Data Modeling.
-![image](https://github.com/lakshay1121/QuotesApp/assets/91718893/61d4f2a7-7186-4ce5-a791-dd9fe2f9d14a)
-
 
 Quotes posting application - 
 
@@ -77,3 +74,6 @@ fields to be send in body -
   }
 
   fields you want to update mention them in the req.body.
+
+## Data Modeling.
+![image](https://github.com/lakshay1121/QuotesApp/assets/91718893/61d4f2a7-7186-4ce5-a791-dd9fe2f9d14a)
