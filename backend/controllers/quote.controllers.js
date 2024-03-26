@@ -1,5 +1,4 @@
 import { Quote } from "../models/quote.models.js";
-import mongodb from "mongodb";
 
 export const getAllQuotes = async (req, res) => {
   try {
@@ -111,4 +110,39 @@ export const deleteQuote = async (req, res) => {
   }
 };
 
-export const updateQuote = async (req, res) => {};
+export const updateQuote = async (req, res) => {
+  const updateQuoteObj = req.body;
+  const quoteID = req.params.id;
+
+  try {
+    if (!quoteID)
+      return res.status(400).json({ message: "Quote ID not provided" });
+    if (!updateQuoteObj || Object.keys(updateQuoteObj).length === 0)
+      return res.status(400).json({ message: "No data provided to update" });
+
+    const updateObject = {};
+    for (const [key, value] of Object.entries(updateQuoteObj)) {
+      updateObject[`quotes.$.${key}`] = value;
+    }
+
+    const quoteUpdated = await Quote.updateOne(
+      { "quotes._id": quoteID },
+      { $set: updateObject }
+    );
+
+    if (!quoteUpdated)
+      return res.status(404).json({ message: "Quote not found" });
+
+    if (quoteUpdated.modifiedCount === 0)
+      return res.status(200).json({ message: "No value updated!" });
+
+    return res
+      .status(200)
+      .json({ message: "Quote updated successfully!", quoteUpdated });
+  } catch (error) {
+    console.error("Error updating quote:", error);
+    return res
+      .status(500)
+      .json({ message: "Error while updating quote", error: error.message });
+  }
+};
