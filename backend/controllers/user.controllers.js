@@ -82,4 +82,6 @@ export const handleLogin = async (req, res) => {
   }
 };
 
-export const handleLogout = async () => {};
+export const handleLogout = async () => {
+  // clear the access token from the frontend part.
+};
