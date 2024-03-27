@@ -17,7 +17,7 @@ connectToDB();
 //general route.
 
 app.get('/',(req,res)=>{
-    res.send('Welcome to the Quote API. Start by hitting API endpoints !!!')
+    res.send(`<h1>Welcome to Quotes server, Start by hitting APIS !!!</h1>`)
 })
 
 // user routes.
