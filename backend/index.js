@@ -14,6 +14,12 @@ app.use(cors());
 
 connectToDB();
 
+//general route.
+
+app.get('/',(req,res)=>{
+    res.send('Welcome to the Quote API. Start by hitting API endpoints !!!')
+})
+
 // user routes.
 app.use('/api/v1/auth',userRouter);
 
